@@ -1,11 +1,11 @@
 export interface ILoginResponse {
   accessToken: string;
-  expiresIn: number
+  expiresIn: number;
 }
 
 export interface IResponse<T> {
   data: T;
-  message: string,
+  message: string;
   meta: T;
 }
 
@@ -19,7 +19,7 @@ export interface IUser {
   createdAt?: string;
   updatedAt?: string;
   authorities?: IAuthority[];
-  role?: IRole
+  role?: IRole;
 }
 
 export interface IAuthority {
@@ -34,20 +34,20 @@ export interface IFeedBackMessage {
 export enum IFeedbackStatus {
   success = "SUCCESS",
   error = "ERROR",
-  default = ''
+  default = "",
 }
 
 export enum IRoleType {
   admin = "ROLE_ADMIN",
   user = "ROLE_USER",
-  superAdmin = 'ROLE_SUPER_ADMIN'
+  superAdmin = "ROLE_SUPER_ADMIN",
 }
 
 export interface IRole {
   createdAt: string;
   description: string;
   id: number;
-  name : string;
+  name: string;
   updatedAt: string;
 }
 
@@ -73,7 +73,7 @@ export interface ISearch {
   pageNumber?: number;
   pageSize?: number;
   totalElements?: number;
-  totalPages?:number;
+  totalPages?: number;
 }
 
 export interface IMovie {
@@ -87,4 +87,24 @@ export interface IPreferenceList {
   id?: number;
   name?: string;
   movies?: IMovie[];
+}
+
+export interface IProducts {
+  id?: number;
+  nombre: string;
+  descripcion?: string;
+  precio: number;
+  cantidadStock: number;
+  categoria: ICategory;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ICategory {
+  id?: number;
+  nombre: string;
+  descripcion?: string;
+  productos?: IProducts[];
+  createdAt?: string;
+  updatedAt?: string;
 }
