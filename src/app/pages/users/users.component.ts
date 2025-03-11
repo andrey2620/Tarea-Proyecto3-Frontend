@@ -59,5 +59,5 @@ export class UsersComponent {
     this.userService.update(user);
     this.modalService.closeAll();
   }
-  
+
 }

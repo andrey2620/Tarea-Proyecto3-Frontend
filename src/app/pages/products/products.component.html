@@ -1,6 +1,36 @@
-@defer{
-<div class="products-container">
-  <h1>Productos</h1>
-</div>
-} @loading (minimum 1.5s){
-<app-loader></app-loader> }
+@defer {
+  <div class="row p-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Productos</h2>
+        <button (click)="modalService.displayModal('md', addProductsModal)" type="button" class="btn btn-primary"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    <div class="col-12">
+      <app-products-list
+        (callModalAction)="callEdition($event)"
+        (callDeleteAction)="productsService.delete($event)"
+        [products]="productsService.products$()"
+      ></app-products-list>
+      @if(productsService.products$().length) {
+        <app-pagination
+          [service]="productsService"
+        ></app-pagination>
+      }
+    </div>
+  </div>
+} @loading (minimum 1.5s) {
+  <app-loader></app-loader>
+}
+
+<ng-template #addProductsModal>
+  <app-modal [hideFooter]="true">
+    <div>
+      <app-products-form
+        [productsForm]="productsForm"
+        (callSaveMethod)="saveProducts($event)"
+        (callUpdateMethod)="updateProducts($event)"
+      ></app-products-form>
+    </div>
+  </app-modal>
+</ng-template>
