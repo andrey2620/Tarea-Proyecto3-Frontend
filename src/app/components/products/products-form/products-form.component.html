@@ -5,36 +5,76 @@
   <div class="mb-2">
     <label class="mb-1" for="nombre">Nombre*</label>
     <input id="nombre" formControlName="nombre" type="text" class="form-control">
-    <div *ngIf="productsForm.controls['nombre'].invalid && (productsForm.controls['nombre'].dirty || productsForm.controls['nombre'].touched)">
-      <p class="text-danger my-1">Nombre is required</p>
-    </div>
+    @if (productsForm.controls['nombre'].invalid && (productsForm.controls['nombre'].dirty || productsForm.controls['nombre'].touched)) {
+      <p class="text-danger my-1">Nombre es requerido</p>
+    }
   </div>
   <div class="mb-2">
     <label class="mb-1" for="descripcion">Descripción</label>
     <input id="descripcion" formControlName="descripcion" type="text" class="form-control">
+    @if (productsForm.controls['descripcion'].invalid && (productsForm.controls['descripcion'].dirty || productsForm.controls['descripcion'].touched)) {
+      <p class="text-danger my-1">Descripcion es requerido</p>
+    }
   </div>
   <div class="mb-2">
     <label class="mb-1" for="precio">Precio*</label>
     <input id="precio" formControlName="precio" type="number" class="form-control">
-    <div *ngIf="productsForm.controls['precio'].invalid && (productsForm.controls['precio'].dirty || productsForm.controls['precio'].touched)">
-      <p class="text-danger my-1">Precio is required</p>
-    </div>
+    @if (productsForm.controls['precio'].invalid && (productsForm.controls['precio'].dirty || productsForm.controls['precio'].touched)){
+      <p class="text-danger my-1">Precio es requerido</p>
+    }
   </div>
   <div class="mb-2">
     <label class="mb-1" for="cantidadStock">Cantidad en Stock*</label>
     <input id="cantidadStock" formControlName="cantidadStock" type="number" class="form-control">
-    <div *ngIf="productsForm.controls['cantidadStock'].invalid && (productsForm.controls['cantidadStock'].dirty || productsForm.controls['cantidadStock'].touched)">
-      <p class="text-danger my-1">Cantidad en Stock is required</p>
-    </div>
+    @if (productsForm.controls['cantidadStock'].invalid && (productsForm.controls['cantidadStock'].dirty || productsForm.controls['cantidadStock'].touched)){
+      <p class="text-danger my-1">Cantidad en Stock es requerido</p>
+    }
   </div>
+
+  <!-- <div class="mb-2">
+    <label class="mb-1" for="categoria">Categoría*</label>
+    <input  id="categoria" formControlName="categoria" class="form-control" type="number">
+    @if (productsForm.controls['categoria'].invalid && (productsForm.controls['categoria'].dirty || productsForm.controls['categoria'].touched)){
+      <p class="text-danger my-1">Categoría is required</p>
+    }
+  </div> -->
+
+  <!-- <div class="mb-2">
+    <label class="mb-1" for="categoria">Categoría*</label>
+    <select id="categoria" formControlName="categoria" class="form-control">
+    </select>
+    @if (productsForm.controls['categoria'].invalid && (productsForm.controls['categoria'].dirty || productsForm.controls['categoria'].touched)){
+      <p class="text-danger my-1">Categoría is required</p>
+    }
+  </div> -->
+
+  <!-- <div class="mb-2">
+    <label class="mb-1" for="categoria">Categoría*</label>
+    <select id="categoria" formControlName="categoria" class="form-control">
+      <option value="">Seleccione una categoría</option>
+      <option *ngFor="let cat of categories()" [value]="cat.id">
+        {{ cat.nombre }}
+      </option>
+    </select>
+    <div *ngIf="productsForm.controls['categoria'].invalid && (productsForm.controls['categoria'].dirty || productsForm.controls['categoria'].touched)">
+      <p class="text-danger my-1">Categoría is required</p>
+    </div>
+  </div> -->
+
   <div class="mb-2">
     <label class="mb-1" for="categoria">Categoría*</label>
     <select id="categoria" formControlName="categoria" class="form-control">
+      <option value="">Seleccione una categoría</option>
+      <!-- Se invoca el signal para obtener el array y se itera con *ngFor -->
+      <option *ngFor="let cat of categoriesSignal()"
+      [value]="cat.id">{{ cat.nombre }}</option>
     </select>
     <div *ngIf="productsForm.controls['categoria'].invalid && (productsForm.controls['categoria'].dirty || productsForm.controls['categoria'].touched)">
       <p class="text-danger my-1">Categoría is required</p>
     </div>
   </div>
+
+
   <div class="d-flex justify-content-end">
     <button (click)="callSave()" [disabled]="productsForm.invalid" class="btn btn-primary" type="button">Save</button>
   </div>

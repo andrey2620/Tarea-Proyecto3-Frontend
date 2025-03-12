@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, ViewChild} from "@angular/core";
+import { Component, inject, TemplateRef, ViewChild} from "@angular/core";
 import { LoaderComponent } from "../../components/loader/loader.component";
 import { PaginationComponent } from "../../components/pagination/pagination.component";
 import { ModalComponent } from "../../components/modal/modal.component";
@@ -21,22 +21,23 @@ import { IProducts } from '../../interfaces';
     ProductsFormComponent,
   ],
   templateUrl: './products.component.html',
-  styleUrl: './products.component.scss'
+  styleUrls: ['./products.component.scss']
 })
 export class ProductsPageComponent {
     public productsService: ProductsService = inject(ProductsService);
     public modalService: ModalService = inject(ModalService);
-    @ViewChild('addProductsModal') public addProductsModal: any;
+    @ViewChild('addProductsModal', { static: true }) addProductsModal!: TemplateRef<any>;
     public fb: FormBuilder = inject(FormBuilder);
     productsForm = this.fb.group({
-      id: [''],
-      nombre: ['', Validators.required],
-      descripcion: [''],
-      precio: ['', Validators.required],
-      cantidadStock: ['', Validators.required],
-      categoria: ['', Validators.required],
-      updatedAt: [''],
-    })
+      id: this.fb.control<number>(0),
+      nombre: this.fb.control<string>(''),
+      descripcion: this.fb.control<string>(''),
+      precio: this.fb.control<number>(0),
+      cantidadStock: this.fb.control<number>(0),
+      categoria: this.fb.control<number>(0), // sólo el id
+      updatedAt: this.fb.control<string>('')
+    });
+
 
     constructor() {
       this.productsService.search.page = 1;
@@ -48,15 +49,47 @@ export class ProductsPageComponent {
       this.modalService.closeAll();
     }
 
-    callEdition(products: IProducts) {
-      this.productsForm.controls['id'].setValue(products.id ? JSON.stringify(products.id) : '');
-      this.productsForm.controls['nombre'].setValue(products.nombre ? products.nombre : '');
-      this.productsForm.controls['descripcion'].setValue(products.descripcion ? products.descripcion : '');
-      this.productsForm.controls['precio'].setValue(products.precio ? JSON.stringify(products.precio) : '');
-      this.productsForm.controls['cantidadStock'].setValue(products.cantidadStock ? JSON.stringify(products.cantidadStock) : '');
-      this.productsForm.controls['categoria'].setValue(products.categoria ? JSON.stringify(products.categoria) : '');
+    callEdition(product: IProducts) {
+      // Asegura tipos para cada campo
+      this.productsForm.controls['id'].setValue(product.id ?? 0);
+      this.productsForm.controls['nombre'].setValue(product.nombre ?? '');
+      this.productsForm.controls['descripcion'].setValue(product.descripcion ?? '');
+      this.productsForm.controls['precio'].setValue(product.precio ?? 0);
+      this.productsForm.controls['cantidadStock'].setValue(product.cantidadStock ?? 0);
+
+      // Si product.categoria es un objeto, extrae el id.
+      // Si es simplemente un número, lo asignas directamente.
+      if (typeof product.categoria === 'object') {
+        // Maneja la posibilidad de que 'id' sea undefined
+        this.productsForm.controls['categoria'].setValue(this.getCategoriaId(product.categoria) ?? 0);
+      } else {
+        // En caso de que 'categoria' sea number
+        this.productsForm.controls['categoria'].setValue(product.categoria ?? 0);
+      }
+
+      this.productsForm.controls['updatedAt'].setValue(product.updatedAt ?? '');
+
+      // Finalmente, abre el modal
       this.modalService.displayModal('md', this.addProductsModal);
     }
+    getCategoriaId(
+      categoria: number | { id: number; nombre: string } | (number | { id: number; nombre: string })[]
+    ): number | undefined {
+      if (Array.isArray(categoria)) {
+        // Si es un arreglo, devolvemos el id del primer elemento (si existe)
+        if (categoria.length > 0) {
+          const first = categoria[0];
+          return typeof first === 'number' ? first : first.id;
+        } else {
+          return undefined;
+        }
+      } else if (typeof categoria === 'number') {
+        return categoria;
+      } else {
+        return categoria.id;
+      }
+    }
+
 
     updateProducts(products: IProducts) {
       this.productsService.update(products);

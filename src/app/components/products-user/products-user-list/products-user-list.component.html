@@ -1,0 +1,35 @@
+<div class="table-container table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Cantidad en Stock</th>
+        <th>Categoría</th>
+        <th>Creado</th>
+        <th>Actualizado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of products; trackBy: trackByProductId">
+        <td>{{ item.id }}</td>
+        <td>{{ item.nombre }}</td>
+        <td>{{ item.descripcion }}</td>
+        <td>{{ item.precio }}</td>
+        <td>{{ item.cantidadStock }}</td>
+        <td>{{ getCategoryName(item.categoria) }}</td>
+        <td>{{ item.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ item.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+      </tr>
+      <tr *ngIf="products.length === 0">
+        <td colspan="8">
+          <div class="d-flex justify-content-center align-items-center w-100">
+            <p>No hay productos</p>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

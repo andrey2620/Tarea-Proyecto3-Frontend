@@ -14,7 +14,9 @@ import { GamesComponent } from "./pages/games/games.component";
 import { OrdersComponent } from "./pages/orders/orders.component";
 import { PreferenceListPageComponent } from "./pages/preferenceList/preference-list.component";
 import { CategoryPageComponent } from "./pages/category/category.component";
+import { CategoryUserComponent } from "./pages/category-user/category-user.component";
 import { ProductsPageComponent } from "./pages/products/products.component";
+import { ProductsUserComponent } from "./pages/products-user/products-user.component";
 
 export const routes: Routes = [
   {
@@ -105,7 +107,7 @@ export const routes: Routes = [
         path: "products",
         component: ProductsPageComponent,
         data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          authorities: [IRoleType.admin, IRoleType.superAdmin],
           name: "products",
           showInSidebar: true,
         },
@@ -114,8 +116,26 @@ export const routes: Routes = [
         path: "category",
         component: CategoryPageComponent,
         data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          authorities: [IRoleType.admin, IRoleType.superAdmin],
           name: "category",
+          showInSidebar: true,
+        },
+      },
+      {
+        path: "productsUser",
+        component: ProductsUserComponent,
+        data: {
+          authorities: [IRoleType.user],
+          name: "productsUser",
+          showInSidebar: true,
+        },
+      },
+      {
+        path: "categoryUser",
+        component: CategoryUserComponent,
+        data: {
+          authorities: [IRoleType.user],
+          name: "categoryUser",
           showInSidebar: true,
         },
       },

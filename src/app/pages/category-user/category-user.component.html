@@ -1,0 +1,15 @@
+<div class="row p-4">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Categories</h2>
+      <!-- Se eliminan botones de agregar, editar, borrar -->
+    </div>
+  </div>
+  <div class="col-12">
+    <!-- Usa el componente de lista en modo solo lectura -->
+    <app-category-user-list [category]="categoryService.category$()"></app-category-user-list>
+    <div *ngIf="categoryService.category$().length">
+      <app-pagination [service]="categoryService"></app-pagination>
+    </div>
+  </div>
+</div>

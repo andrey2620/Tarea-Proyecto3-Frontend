@@ -7,7 +7,7 @@ import { AlertService } from "./alert.service";
   providedIn: "root",
 })
 export class ProductsService extends BaseService<IProducts> {
-  protected override source: string = 'products';
+  protected override source: string = 'productos';
   private productsListSignal = signal<IProducts[]>([]);
   get products$() {
     return this.productsListSignal;

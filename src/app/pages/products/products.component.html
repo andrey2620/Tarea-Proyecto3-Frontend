@@ -29,8 +29,23 @@
       <app-products-form
         [productsForm]="productsForm"
         (callSaveMethod)="saveProducts($event)"
+        (callUpdateMethod)="updateProducts($event)">
+      </app-products-form>
+
+
+
+    <!-- <div>
+      <app-products-form
+      [productsForm]="productsForm"
+      (callSaveMethod)="saveProducts($any($event))"
+      (callUpdateMethod)="updateProducts($any($event))">
+    </app-products-form> -->
+
+      <!-- <app-products-form
+        [productsForm]="productsForm"
+        (callSaveMethod)="saveProducts($event)"
         (callUpdateMethod)="updateProducts($event)"
-      ></app-products-form>
+      ></app-products-form> -->
     </div>
   </app-modal>
 </ng-template>

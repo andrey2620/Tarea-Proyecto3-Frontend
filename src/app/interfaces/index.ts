@@ -91,11 +91,11 @@ export interface IPreferenceList {
 
 export interface IProducts {
   id?: number;
-  nombre: string;
+  nombre?: string;
   descripcion?: string;
-  precio: number;
-  cantidadStock: number;
-  categoria: ICategory;
+  precio?: number;
+  cantidadStock?: number;
+  categoria?: number | { id: number; nombre: string } | Array<number | { id: number; nombre: string }>;
   createdAt?: string;
   updatedAt?: string;
 }

@@ -1,4 +1,4 @@
-<div class="table-container table-responsive">
+<!-- <div class="table-container table-responsive">
   <table class="table table-striped">
     <thead>
       <tr>
@@ -21,7 +21,15 @@
         <td>{{item.descripcion}}</td>
         <td>{{item.precio}}</td>
         <td>{{item.cantidadStock}}</td>
-        <td>{{item.categoria.nombre}}</td>
+        <td>
+          <ng-container *ngIf="isCategoryObject(item.categoria); else showNumber">
+            {{ item.categoria.nombre }}
+          </ng-container>
+          <ng-template #showNumber>
+            {{ item.categoria }}
+          </ng-template>
+        </td>
+
         <td>{{item.createdAt | date: 'dd/MM/yyyy HH:mm'}}</td>
         <td>{{item.updatedAt | date: 'dd/MM/yyyy HH:mm'}}</td>
         <td>
@@ -38,6 +46,52 @@
         </td>
       </tr>
     }
+    </tbody>
+  </table>
+</div> -->
+
+<div class="table-container table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Cantidad en Stock</th>
+        <th scope="col">Categoría</th>
+        <th scope="col">Creado</th>
+        <th scope="col">Actualizado</th>
+        <th class="text-center" scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of products; trackBy: trackByProductId">
+        <th scope="row">{{ item.id }}</th>
+        <td>{{ item.nombre }}</td>
+        <td>{{ item.descripcion }}</td>
+        <td>{{ item.precio }}</td>
+        <td>{{ item.cantidadStock }}</td>
+        <td>{{ getCategoryName(item.categoria) }}</td>
+        <td>{{ item.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ item.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+          <button (click)="callModalAction.emit(item)" class="btn btn-warning me-2" type="button">
+            <i class="fas fa-pen"></i>
+          </button>
+          <button (click)="callDeleteAction.emit(item)" class="btn btn-danger" type="button">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+      <!-- Muestra mensaje si no hay productos -->
+      <tr *ngIf="products.length === 0">
+        <td colspan="9">
+          <div class="d-flex justify-content-center align-items-center w-100">
+            <p class="mb-0">No hay productos</p>
+          </div>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>

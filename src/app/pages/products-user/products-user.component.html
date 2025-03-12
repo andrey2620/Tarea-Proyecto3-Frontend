@@ -1,0 +1,16 @@
+<div class="row p-4">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Productos</h2>
+      <!-- Se han eliminado botones para agregar, editar o borrar -->
+    </div>
+  </div>
+  <div class="col-12">
+    <!-- Se utiliza el componente de lista de productos para modo solo lectura -->
+    <app-products-user-list [products]="productsService.products$()"></app-products-user-list>
+    <!-- Se muestra paginación si hay productos -->
+    <div *ngIf="productsService.products$().length">
+      <app-pagination [service]="productsService"></app-pagination>
+    </div>
+  </div>
+</div>
